@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1  #tells this is an ArgoCD resource
+kind: Application
+
+metadata:
+  name: nginx-gitops
+
+  namespace: argocd
+
+spec:
+
+  project: default
+
+  source:
+    repoURL: https://github.com/khetanmaya2-commits/GitOps-Kubernetes.git
+    targetRevision: main  #github branch
+    path: k8s
+
+  destination:
+    server: https://kubernetes.default.svc   #tells deploy these manifests to my kubernetes cluster
+    namespace: default
+
+  syncPolicy:
+    automated:       #enable automatic synchronization
+      prune: true
+      selfHeal: true
